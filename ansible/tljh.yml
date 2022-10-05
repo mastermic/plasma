@@ -40,6 +40,14 @@
         tljh-config set limits.memory 2G
         tljh-config set limits.cpu 2
 
+    - name: Add jhub cas authenticator and downgrade protobuf
+      # see https://github.com/jupyterhub/the-littlest-jupyterhub/issues/406
+      # and https://stackoverflow.com/questions/72441758
+      shell: |
+        "{{ tljh_prefix }}/hub/bin/pip3 install --upgrade jhub-cas-authenticator protobuf==3.20"
+        systemctl restart jupyterhub
+
+    ## this breaks
     - name: Reload the hub
       shell: "tljh-config reload hub"
 
